@@ -5,7 +5,9 @@ import
   StyleSheet, 
   Image, 
   TextInput, 
-  KeyboardAvoidingView,  
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  Text,  
 } from "react-native";
 import * as screen from "./src/constants/dimesions.js";
 
@@ -41,6 +43,13 @@ export default function App(){
           onChangeText = {handleChangeText}
         />
       </KeyboardAvoidingView>
+      <TouchableOpacity 
+        style = {styles.submitButton}
+        onPress = {() => console.log("Botão Pressionado")}>
+        <Text style = {styles.submitButtonText} >
+          Entrar
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -53,14 +62,13 @@ const styles = StyleSheet.create(
     },
     header:
     {
-      backgroundColor: "red",
       marginTop: screen.height * 0.05,
       alignItems: "flex-end",
     },
     titleImage:
     {
       width: screen.width * 0.8,
-      height: screen.height * 0.3,
+      height: screen.height * 0.2,
       marginRight: screen.width * 0.05
     },
     gifImage:
@@ -75,10 +83,26 @@ const styles = StyleSheet.create(
       alignSelf: "center",
       marginVertical: screen.height * 0.03,
       backgroundColor: "#F5F5F5",
-      borderRadius: screen.width * 0.03,
+      borderRadius: screen.width * 0.02,
       color: "#333",
       fontSize: screen.height * 0.025,
       paddingHorizontal: screen.width * 0.03,
+    },
+    submitButton:
+    {
+      width: screen.width * 0.2,
+      height: screen.height * 0.06,
+      backgroundColor: "#75FFAF",
+      alignSelf: "center",
+      borderRadius: screen.width * 0.02,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    submitButtonText:
+    {
+      fontSize: screen.height * 0.03,
+      color: "#FFFFFF",
+      fontWeight: "bold",
     },
   }
 );
