@@ -1,8 +1,20 @@
-import React from "react";
-import { SafeAreaView, View, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import 
+{ SafeAreaView, 
+  View, 
+  StyleSheet, 
+  Image, 
+  TextInput, 
+  KeyboardAvoidingView,  
+} from "react-native";
 import * as screen from "./src/constants/dimesions.js";
 
 export default function App(){
+  const [userName, setUserName] = useState("");
+  const handleChangeText = (newText) => {
+    setUserName(newText);
+    console.log(newText);
+  };
   return(
     <SafeAreaView style = {styles.container}>
       <View style = {styles.header}>
@@ -12,42 +24,61 @@ export default function App(){
           resizeMode = {"contain"} 
         />
       </View>
-      <View style = {styles.gifContainer}>
+      <View>
         <Image
           source = {require("./src/assets/images/corona-doctor.gif")}
           style = {styles.gifImage}
           resizeMode = {"cover"}
         />
       </View>
+      <KeyboardAvoidingView behavior = {"position"}>
+        <TextInput
+          style = {styles.userNameInput}
+          placeholder = {"@USUÁRIO"}
+          autoCapitalize = {"none"}
+          autoCorrect = {false}
+          value = {userName}
+          onChangeText = {handleChangeText}
+        />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create(
   {
-    container:{
+    container:
+    {
       flex: 1,
     },
-    header:{
-      height: screen.height * 0.3,
-      width: screen.width * 1,
+    header:
+    {
       backgroundColor: "red",
       marginTop: screen.height * 0.05,
       alignItems: "flex-end",
     },
-    titleImage:{
+    titleImage:
+    {
       width: screen.width * 0.8,
       height: screen.height * 0.3,
       marginRight: screen.width * 0.05
     },
-    gifContainer:{
+    gifImage:
+    {
       width: screen.width,
       height: screen.height * 0.4,
-      backgroundColor: "yellow",
     },
-    gifImage:{
-      width: screen.width,
-      height: screen.height * 0.4,
+    userNameInput:
+    {
+      width: screen.width * 0.9,
+      height: screen.height * 0.05,
+      alignSelf: "center",
+      marginVertical: screen.height * 0.03,
+      backgroundColor: "#F5F5F5",
+      borderRadius: screen.width * 0.03,
+      color: "#333",
+      fontSize: screen.height * 0.025,
+      paddingHorizontal: screen.width * 0.03,
     },
   }
 );
