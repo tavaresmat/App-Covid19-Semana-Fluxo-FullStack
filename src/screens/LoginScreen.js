@@ -11,7 +11,7 @@ import
 } from "react-native";
 import * as screen from "../constants/dimesions.js";
 
-export default function LoginScreen(props){
+export default function LoginScreen({navigation}){
   const [userName, setUserName] = useState("");
   const handleChangeText = (newText) => {
     setUserName(newText);
@@ -45,7 +45,7 @@ export default function LoginScreen(props){
       </KeyboardAvoidingView>
       <TouchableOpacity 
         style = {styles.submitButton}
-        onPress = {() => props.navigation.navigate("Logged")}>
+        onPress = {() => navigation.navigate("Logged")}>
         <Text style = {styles.submitButtonText} >
           Entrar
         </Text>

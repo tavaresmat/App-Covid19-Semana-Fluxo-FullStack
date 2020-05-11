@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import LoginScreen from './screens/LoginScreen'
 import FeedScreen from './screens/FeedScreen';
 import StatsScreen from './screens/StatsScreen'
+import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons'
 
 const Stack = createStackNavigator();
 
@@ -12,9 +13,34 @@ const Tab = createBottomTabNavigator();
 
 function LoggedInFlow(){
     return(
-        <Tab.Navigator>
-            <Tab.Screen name = "feed" component = {FeedScreen} />
-            <Tab.Screen name = "stats" component = {StatsScreen} />
+        <Tab.Navigator tabBarOptions={{
+            labelStyle:{fontSize:16},
+            activeTintColor:"#75ffaf"
+        }}>
+            <Tab.Screen 
+                name = "feed" 
+                component = {FeedScreen} 
+                options = {{
+                    tabBarIcon: ({focused}) =>
+                        <MaterialCommunityIcons
+                            name = "clipboard-text-outline"
+                            size = {30}
+                            color = {focused ? "#75ffaf" : "grey"}
+                        />
+                }}
+            />
+            <Tab.Screen 
+                name = "stats" 
+                component = {StatsScreen}
+                options = {{
+                    tabBarIcon: ({focused}) => 
+                        <Entypo 
+                            name = "line-graph" 
+                            size = {30} 
+                            color = {focused ? "#75ffaf" : "grey"}
+                        />
+                }}
+            />
         </Tab.Navigator>
     );
 }
