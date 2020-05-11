@@ -10,7 +10,6 @@ import
   Text,  
 } from "react-native";
 import * as screen from "../constants/dimesions.js";
-import { useLinkProps } from "@react-navigation/native";
 
 export default function LoginScreen(props){
   const [userName, setUserName] = useState("");
@@ -46,7 +45,7 @@ export default function LoginScreen(props){
       </KeyboardAvoidingView>
       <TouchableOpacity 
         style = {styles.submitButton}
-        onPress = {() => console.log(props.navigation.navigate("Exemplo"))}>
+        onPress = {() => props.navigation.navigate("Logged")}>
         <Text style = {styles.submitButtonText} >
           Entrar
         </Text>
