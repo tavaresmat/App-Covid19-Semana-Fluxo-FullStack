@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import { AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -25,7 +26,7 @@ function LoggedInFlow(){
                         <MaterialCommunityIcons
                             name = "clipboard-text-outline"
                             size = {30}
-                            color = {focused ? "#75ffaf" : "grey"}
+                            color = {focused ? "#75ffaf" : "grey"}  /* Deixa ícone selecionado colorido */
                         />
                 }}
             />
@@ -37,7 +38,7 @@ function LoggedInFlow(){
                         <Entypo 
                             name = "line-graph" 
                             size = {30} 
-                            color = {focused ? "#75ffaf" : "grey"}
+                            color = {focused ? "#75ffaf" : "grey"}  /* Deixa ícone selecionado colorido */
                         />
                 }}
             />
@@ -46,9 +47,36 @@ function LoggedInFlow(){
 }
 
 export default function Routes(){
+    
+    const [hasToken, setHasToken] = useState(null);
+    const [loadingToken, setLoadingToken] = useState(true);
+
+    /* tryLocalLoginIn is a function that searchs for a storaged user value and keeps it in asyncUser variable */
+    async function tryLocalLoginIn(){
+        try{
+            const asyncUser = await AsyncStorage.getItem("user");
+            console.log("valor de asyncUser: ", asyncUser);
+            asyncUser === null ? setHasToken(false) : setHasToken(true);
+        }catch(e){
+            console.log(e);
+            setHasToken(false);
+        }finally{
+            setLoadingToken(false);
+        }
+    }
+
+    useEffect(() => {tryLocalLoginIn()}, []);
+ 
+    if (loadingToken){
+        return null;
+    }
+
     return(
         <NavigationContainer>
-            <Stack.Navigator headerMode = "none">
+            <Stack.Navigator 
+                headerMode = "none"
+                initialRouteName = {hasToken ? "Logged" : "Login"}
+            >
                 <Stack.Screen name = "Login" component = {LoginScreen} />
                 <Stack.Screen name = "Logged" component = {LoggedInFlow} />
             </Stack.Navigator>

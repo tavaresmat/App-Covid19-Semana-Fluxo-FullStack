@@ -7,16 +7,40 @@ import
   TextInput, 
   KeyboardAvoidingView,
   TouchableOpacity,
-  Text,  
+  Text,
+  Alert,
+  AsyncStorage,
 } from "react-native";
 import * as screen from "../constants/dimesions.js";
 
-export default function LoginScreen({navigation}){
+export default function LoginScreen({ navigation: { navigate } }){
+  
   const [userName, setUserName] = useState("");
+  
+  /* handleChangeText gets the input from the login box each time it changes */
   const handleChangeText = (newText) => {
     setUserName(newText);
     console.log(newText);
   };
+
+  async function storeUser(){
+    try{
+      await AsyncStorage.setItem("user", userName);
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+  /* Login is a function that gets and checks the input from the user */
+  function Login(){
+    if (userName === ""){
+      Alert.alert("Nome de usuário Inválido !");
+    }else{
+      storeUser();
+      navigate("Logged"); 
+    }
+  }
+
   return(
     <SafeAreaView style = {styles.container}>
       <View style = {styles.header}>
@@ -45,7 +69,7 @@ export default function LoginScreen({navigation}){
       </KeyboardAvoidingView>
       <TouchableOpacity 
         style = {styles.submitButton}
-        onPress = {() => navigation.navigate("Logged")}>
+        onPress = {() => Login()}>
         <Text style = {styles.submitButtonText} >
           Entrar
         </Text>
@@ -59,6 +83,7 @@ const styles = StyleSheet.create(
     container:
     {
       flex: 1,
+      backgroundColor: "#FFFFFF"
     },
     header:
     {

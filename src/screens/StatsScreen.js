@@ -1,8 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView, View, StyleSheet } from 'react-native';
 
-const StatsScreen = () => {
-  return <View />;
+export default function StatsScreen(){
+  return(<View/>);
 }
-
-export default StatsScreen;
