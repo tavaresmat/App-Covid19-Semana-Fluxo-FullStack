@@ -11,6 +11,7 @@ import
   Alert,
   AsyncStorage,
 } from "react-native";
+
 import * as screen from "../constants/dimesions.js";
 
 export default function LoginScreen({ navigation: { navigate } }){
@@ -78,31 +79,25 @@ export default function LoginScreen({ navigation: { navigate } }){
   );
 }
 
-const styles = StyleSheet.create(
-  {
-    container:
-    {
+const styles = StyleSheet.create({
+    container:{
       flex: 1,
       backgroundColor: "#FFFFFF"
     },
-    header:
-    {
+    header:{
       marginTop: screen.height * 0.05,
       alignItems: "flex-end",
     },
-    titleImage:
-    {
+    titleImage:{
       width: screen.width * 0.8,
       height: screen.height * 0.2,
       marginRight: screen.width * 0.05
     },
-    gifImage:
-    {
+    gifImage:{
       width: screen.width,
       height: screen.height * 0.4,
     },
-    userNameInput:
-    {
+    userNameInput:{
       width: screen.width * 0.9,
       height: screen.height * 0.05,
       alignSelf: "center",
@@ -113,8 +108,7 @@ const styles = StyleSheet.create(
       fontSize: screen.height * 0.025,
       paddingHorizontal: screen.width * 0.03,
     },
-    submitButton:
-    {
+    submitButton:{
       width: screen.width * 0.2,
       height: screen.height * 0.06,
       backgroundColor: "#75FFAF",
@@ -123,8 +117,7 @@ const styles = StyleSheet.create(
       alignItems: "center",
       justifyContent: "center",
     },
-    submitButtonText:
-    {
+    submitButtonText:{
       fontSize: screen.height * 0.03,
       color: "#FFFFFF",
       fontWeight: "bold",
