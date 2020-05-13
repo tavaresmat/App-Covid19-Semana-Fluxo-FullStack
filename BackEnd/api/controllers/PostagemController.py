@@ -6,7 +6,7 @@ from api.models import *
 from api.serializers import *
 
 class PostagemList(APIView):
-    # get is the method that gets the data from the dataBase and send it in json format
+    # get is the method that gets the data from the dataBase and sends it in json format
     def get(self, request):
         postagem = Postagem.objects.all()
         data = PostagemSerializer(postagem, many = True).data
