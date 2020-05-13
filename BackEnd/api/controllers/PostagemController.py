@@ -16,9 +16,10 @@ class PostagemList(APIView):
     def post(self, request):
         '''
         usuario = request.data['usuario']
-        titulo = request.data['titulo']
+        assunto = request.data['assunto']
         texto = request.data['texto']
-        postagem = Postagem(usuario = usuario, titulo = titulo, texto = texto)
+        imagem = request.data['imagem']
+        postagem = Postagem(usuario = usuario, assunto = assunto, texto = texto)
         postagem.save()
         serializer = PostagemSerializer(postagem).data
         '''
@@ -26,3 +27,11 @@ class PostagemList(APIView):
         serializer.is_valid(raise_exception = True)
         serializer.save()
         return Response(serializer.data)
+
+class PostagemDetail(APIView):
+
+    # the method get in this class gets the data from a specific id informed
+    def get(self, request, id):
+        postagem = get_object_or_404(Postagem, id = id)
+        serializer = PostagemSerializer(postagem).data
+        return Response(serializer)
