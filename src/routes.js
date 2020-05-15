@@ -1,18 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import LoginScreen from './screens/LoginScreen'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
+
+import LoginScreen from './screens/LoginScreen';
 import FeedScreen from './screens/FeedScreen';
-import StatsScreen from './screens/StatsScreen'
-import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons'
+import StatsScreen from './screens/StatsScreen';
+import PostingScreen from './screens/PostingScreen';
+import CommentScreen from './screens/CommentSreen';
 
 const Stack = createStackNavigator();
-
 const Tab = createBottomTabNavigator();
 
 function LoggedInFlow(){
+    return(
+        <Stack.Navigator>
+            <Stack.Screen
+                name = "mainFeed"
+                component = {TabFlow}
+                options = {{headerShown: false}}
+            />
+            <Stack.Screen
+                name = "posting"
+                component = {PostingScreen}
+            />
+            <Stack.Screen
+                name = "comment"
+                component = {CommentScreen}
+            />
+        </Stack.Navigator>
+    );
+}
+
+function TabFlow(){
     return(
         <Tab.Navigator tabBarOptions={{
             labelStyle:{fontSize:16},
