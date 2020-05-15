@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   SafeAreaView, 
   View, 
   StyleSheet, 
   Image, 
-  FlatList , 
-  Text,
+  FlatList ,
 } from 'react-native';
+import axios from 'axios';
 
 import * as screen from '../constants/dimesions';
 import CountryBoxItem from '../components/CountryBoxItem';
 
 export default function StatsScreen(){
 
-  const country = [{country: "Brasil"}, {country: "Israel"}];
+//  const country = [{country: "Brasil"}, {country: "Israel"}];
+  const [results, setResults] = useState([]);
+  
+  const getCovidData = async () => {
+    try{
+      const url = "https://api.covid19api.com/summary";
+      const response = await axios.get(url);
+      setResults(response.data.Countries);
+    } catch(e){
+      alert("Não conseguimos pegar os dados...");
+    }
+  }
+
+  useEffect(() => { getCovidData(); }, []);
 
   return(
     <SafeAreaView style = {styles.container}>
@@ -25,9 +38,9 @@ export default function StatsScreen(){
         />
       </View>
       <FlatList
-        data = {country}
-        renderItem = { ({ item }) => <CountryBoxItem/> }
-        keyExtractor = { (item) => item.country }
+        data = {results}
+        renderItem = { ({ item }) => <CountryBoxItem countryData = {item} /> }
+        keyExtractor = { (item) => item.CountryCode }
       />
     </SafeAreaView>
   );
