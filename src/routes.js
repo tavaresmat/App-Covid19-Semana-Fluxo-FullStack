@@ -25,6 +25,13 @@ function LoggedInFlow(){
             <Stack.Screen
                 name = "posting"
                 component = {PostingScreen}
+                options = {{
+                    headerTitle: "Criar Publicação",
+                    headerTitleAlign: "center",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                    },
+                }}
             />
             <Stack.Screen
                 name = "comment"

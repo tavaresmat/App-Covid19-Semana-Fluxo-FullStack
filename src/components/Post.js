@@ -10,7 +10,7 @@ export default function Post({data}){
             <Text style = {Styles.user}>{usuario}</Text>
             <Text style = {Styles.title}>{titulo}</Text>
             <Text style = {Styles.text}>{texto}</Text>
-            { /* If the post doesn't have any image the and operattor results in NULL and the style doesn't appear */ }
+            { /* If the post doesn't have any image the AND operattor results in NULL and the style doesn't appear */ }
             {imagem && (
                 <Image
                 style = {Styles.image}

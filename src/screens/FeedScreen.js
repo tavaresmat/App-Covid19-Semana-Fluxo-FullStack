@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { SafeAreaView, Button, AsyncStorage, FlatList, Text } from 'react-native';
+import { SafeAreaView, AsyncStorage, FlatList, StyleSheet } from 'react-native';
 
 import api from '../services/api';
 import Post from '../components/Post';
@@ -32,7 +32,7 @@ export default function FeedScreen({ navigation: {navigate} }){
 
   useEffect(() => {loadPosts();}, []);
 
-  return <SafeAreaView style = {{ flex: 1, alignItems: "center", justifyContent: "center", }}>
+  return <SafeAreaView style = {Styles.container}>
     <FlatList
       ListHeaderComponent = {<FeedHeader navigate = {navigate} count = {postCount}/>}
       showsVerticalScrollIndicator = {false}
@@ -42,3 +42,12 @@ export default function FeedScreen({ navigation: {navigate} }){
     />
   </SafeAreaView>;
 }
+
+const Styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+})

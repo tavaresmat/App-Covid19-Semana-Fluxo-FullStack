@@ -13,9 +13,12 @@ export default function FeedHeader({ navigate, count }){
                 style = {Styles.image}
                 resizeMode = "contain"
             />
+            {/* If count is Null (because it takes some time to get the count value) then the count text doesn't appear */}
+            {count && (
             <Text style = {Styles.countText}>
-                {count > 1 ? `${count} posts` : `${count} post`}
+                {count === 1 ? `${count} post` : `${count} posts`}
             </Text>
+            )}
         </View>
         <TouchableOpacity style = {Styles.button} onPress = {() => navigate("posting")}>
             <Text style = {Styles.text}>O que está acontecendo na sua quarentena?</Text>
