@@ -32,9 +32,9 @@ const Styles = StyleSheet.create({
         flex: 1,
     },
     header:{
-        marginTop: screen.height * 0.05,
         flexDirection: "row",
         justifyContent: "space-between",
+        marginTop: screen.height * 0.05,
     },
     image:{
         width: screen.width * 0.6,
