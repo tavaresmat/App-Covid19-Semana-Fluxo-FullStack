@@ -23,52 +23,49 @@ export default function PostingScreen( {navigation} ){
     const [image, setImage] = useState(null);
 
     async function post(){
-        const user = await AsyncStorage.getItem("user");
-        if (image){ // Case when post has Image and use Multipart Form
-            const form_data = new FormData();
-            form_data.append("usuario", user);
-            form_data.append("titulo", title);
-            form_data.append("texto", text);
-            form_data.append("imagem", {
-                type: "image/jpg",
-                uri: image,
-                name: "userImage.jpg",
-            });
-            try{
+        try{
+            const user = await AsyncStorage.getItem("user");
+            
+            // Case when post has Image and use Multipart Form
+            if (image){
+                const form_data = new FormData();
+                form_data.append("usuario", user);
+                form_data.append("titulo", title);
+                form_data.append("texto", text);
+                form_data.append("imagem", {
+                    type: "image/jpg",
+                    uri: image,
+                    name: "userImage.jpg",
+                });
                 const response = await api.post("/postagens/", form_data, {
                     headers:{
                         "Content-Type": "multipart/form-data",
                     }
                 });
                 console.log("response: ", response.data);
-            }catch(e){
-                console.log(e);
-                alert("Ocorreu algum erro ao fazer a postagem");
-            }finally{
-                navigation.navigate("feed");
-            }
-        }else{      // Case when post has no Image and use Json Format
-            const postData = {
-                usuario: user,
-                titulo: title,
-                texto: text,
-                imagem: null,
-            };
-            const jsonPostData = JSON.stringify(postData);
-            try{
+            
+            // Case when post has no Image and use Json Format
+            }else{
+                const postData = {
+                    usuario: user,
+                    titulo: title,
+                    texto: text,
+                    imagem: null,
+                };
+                const jsonPostData = JSON.stringify(postData);
                 const response = await api.post("/postagens/", jsonPostData, {
                     headers: {
                         "Content-Type": "application/json",
                     }
                 });
                 console.log("response: ", response.data);
-            }catch(e){
-                console.log(e);
-                alert("Ocorreu algum erro ao fazer a postagem");
-            }finally{
-                navigation.natigate("feed");
             }
-        }
+        }catch(e){
+            console.log(e);
+            alert("Ocorreu algum erro ao fazer a postagem");
+        }finally{
+            navigation.navigate("feed");
+        }   
     };
 
     async function chooseFromGallery(){
