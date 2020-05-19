@@ -14,7 +14,7 @@ import Post from '../components/Post';
 import FeedHeader from '../components/FeedHeader';
 import * as screen from '../constants/dimesions';
 
-export default function FeedScreen({ navigation: {navigate} }){
+export default function FeedScreen({ navigation: { navigate }, route }){
 
   const [posts, setPosts] = useState(null);
   const [postCount, setPostCount] = useState(null);
@@ -45,6 +45,12 @@ export default function FeedScreen({ navigation: {navigate} }){
   }
 
   useEffect(() => {loadPosts();}, []);
+
+  useEffect(() => {
+    if (route.params?.newPost){ 
+      setPosts([route.params?.newPost , ...posts]);
+    }
+  }, [route.params?.newPost]);
 
   return(
     <SafeAreaView style = {Styles.container}>

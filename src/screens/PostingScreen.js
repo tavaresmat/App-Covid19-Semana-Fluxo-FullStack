@@ -42,7 +42,7 @@ export default function PostingScreen( {navigation} ){
                         "Content-Type": "multipart/form-data",
                     }
                 });
-                console.log("response: ", response.data);
+                navigation.navigate("feed", { newPost: response.data });
             
             // Case when post has no Image and use Json Format
             }else{
@@ -58,14 +58,13 @@ export default function PostingScreen( {navigation} ){
                         "Content-Type": "application/json",
                     }
                 });
-                console.log("response: ", response.data);
+                navigation.navigate("feed", { newPost: response.data });
             }
         }catch(e){
             console.log(e);
             alert("Ocorreu algum erro ao fazer a postagem");
-        }finally{
             navigation.navigate("feed");
-        }   
+        }  
     };
 
     async function chooseFromGallery(){
