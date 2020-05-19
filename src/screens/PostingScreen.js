@@ -9,6 +9,8 @@ import {
     Text,
     AsyncStorage,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 import { Ionicons } from '@expo/vector-icons';
 
 import * as screen from '../constants/dimesions';
@@ -18,30 +20,72 @@ export default function PostingScreen( {navigation} ){
 
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
+    const [image, setImage] = useState(null);
 
     async function post(){
-        const postData = {
-            usuario: await AsyncStorage.getItem("user"),
-            titulo: title,
-            texto: text,
-            imagem: null,
-        };
-        const jsonPostData = JSON.stringify(postData);
-        console.log("Nosso jsonPostData: ", jsonPostData);
-        try{
-            const response = await api.post("/postagens/", jsonPostData, {
-                headers: {
-                    "Content-Type": "application/json",
-                }
+        const user = await AsyncStorage.getItem("user");
+        if (image){ // Case when post has Image and use Multipart Form
+            const form_data = new FormData();
+            form_data.append("usuario", user);
+            form_data.append("titulo", title);
+            form_data.append("texto", text);
+            form_data.append("imagem", {
+                type: "image/jpg",
+                uri: image,
+                name: "userImage.jpg",
             });
-            console.log(response.data);
-        }catch(e){
-            console.log(e);
-            alert("Ocorreu algum erro ao fazer a postagem");
-        }finally{
-            navigation.natigate("feed");
+            try{
+                const response = await api.post("/postagens/", form_data, {
+                    headers:{
+                        "Content-Type": "multipart/form-data",
+                    }
+                });
+                console.log("response: ", response.data);
+            }catch(e){
+                console.log(e);
+                alert("Ocorreu algum erro ao fazer a postagem");
+            }finally{
+                navigation.navigate("feed");
+            }
+        }else{      // Case when post has no Image and use Json Format
+            const postData = {
+                usuario: user,
+                titulo: title,
+                texto: text,
+                imagem: null,
+            };
+            const jsonPostData = JSON.stringify(postData);
+            try{
+                const response = await api.post("/postagens/", jsonPostData, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+                console.log("response: ", response.data);
+            }catch(e){
+                console.log(e);
+                alert("Ocorreu algum erro ao fazer a postagem");
+            }finally{
+                navigation.natigate("feed");
+            }
         }
     };
+
+    async function chooseFromGallery(){
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === "granted"){
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,                
+            });
+            if (!result.cancelled){
+                setImage(result.uri);
+            }
+        }
+
+    }
 
     /* The useLayoutEffect function allows to change stack properties inside the screen */
     useLayoutEffect(() => {
@@ -52,9 +96,8 @@ export default function PostingScreen( {navigation} ){
           </TouchableOpacity>
         ),
       });
-    }, [navigation, title, text]);
+    }, [navigation, title, text, image]);
 
-    console.log("Nosso texto: ", text);
     return(
         <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
             <SafeAreaView style = {Styles.container}>
@@ -71,7 +114,7 @@ export default function PostingScreen( {navigation} ){
                     placeholder = "O que está acontecendo na sua quarentena? Pode ser qualquer coisa! Uma piada, uma história, uma notícia ..."
                     multiline
                 />
-                <TouchableOpacity style = {Styles.imageButton} onPress = {() => console.log("Imagem adicionada")}>
+                <TouchableOpacity style = {Styles.imageButton} onPress = {() => chooseFromGallery()}>
                     <Ionicons 
                         name = "ios-images"
                         size = {30}
