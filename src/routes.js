@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import LoginScreen from './screens/LoginScreen';
 import FeedScreen from './screens/FeedScreen';
@@ -14,7 +15,7 @@ import CommentScreen from './screens/CommentSreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function LoggedInFlow(){
+function LoggedInFlow({ navigation }){
     return(
         <Stack.Navigator>
             <Stack.Screen
@@ -31,11 +32,33 @@ function LoggedInFlow(){
                     headerTitleStyle: {
                         fontWeight: "bold",
                     },
+                    headerLeft: () =>(
+                        <TouchableOpacity 
+                            style = {{
+                                width: 24, 
+                                height: 24,
+                                marginVertical: 3,
+                                marginHorizontal: 11,
+                                alignItems: "center",
+                            }} 
+                            onPress = {() => navigation.goBack()}
+                        >
+                            <MaterialIcons
+                                name = "arrow-back"
+                                size = {24}
+                                color = "#75ffaf"
+                            />
+                        </TouchableOpacity>
+                    ),
                 }}
             />
             <Stack.Screen
                 name = "comment"
                 component = {CommentScreen}
+                options = {{
+                    headerTitle: false,
+                    headerTintColor: "#75ffaf",
+                }}
             />
         </Stack.Navigator>
     );
