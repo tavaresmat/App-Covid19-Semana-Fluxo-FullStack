@@ -1,29 +1,83 @@
-import React, { useState } from  'react';
-import { SafeAreaView, View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useEffect } from  'react';
+import { 
+    SafeAreaView, 
+    View, 
+    TextInput, 
+    StyleSheet, 
+    TouchableOpacity, 
+    Text,
+    FlatList,
+    KeyboardAvoidingView,
+    Platform,
+    AsyncStorage,
+    Keyboard,
+} from 'react-native';
 
 import * as screen from '../constants/dimesions';
+import CommentHeader from '../components/CommentHeader';
+import api from '../services/api';
 
-export default function CommentScreen(){
+export default function CommentScreen({ route }){
     
     const [comment, setComment] = useState("");
-    
-    return(
-        <SafeAreaView style = {Styles.container}>
-            <View style = {Styles.inputContainer}>
-                <TextInput 
-                    style = {Styles.input}
-                    placeholder = "Escreva um comentário"
-                    value = {comment}
-                    onChangeText = {(newText) => setComment(newText)}
-                    multiline
-                    fontSize = {screen.height * 0.025}
-                />
-                <TouchableOpacity style = {Styles.commentButton} onPress = {() => console.log("botao clicado")}>
-                    <Text style = {Styles.commentButtonText}>Comentar</Text>
-                </TouchableOpacity>
-            </View>
+    const [user, setUser] = useState("");
 
-        </SafeAreaView>
+    const id = route.params.data.id;
+
+    async function loadUser(){
+        const response = await AsyncStorage.getItem("user");
+        setUser(response);
+    }
+
+    const handleCommentSubmit = async () => {
+        try{
+            const newPost = {
+                usuario: user,
+                texto: comment,
+                postagem: id
+            };
+            await api.post('/comentarios/', newPost);
+        }catch(e){
+            console.log(e);
+        }finally{
+            Keyboard.dismiss();
+            setComment("");
+        }
+    };
+
+    useEffect(() => {
+        loadUser();
+    }, []);
+
+    return(
+        <KeyboardAvoidingView 
+            style = {{flex: 1}}
+            behavior = {Platform.OS == "ios" ? "padding" : null}
+            keyboardVerticalOffset = {Platform.OS == "ios" ? screen.height * 0.1 : null}
+        >
+            <SafeAreaView style = {Styles.container}>
+                <FlatList
+                    data = {[route.params.data]}
+                    keyExtractor = {(comment) => String(comment.id)}
+                    showsVerticalScrollIndicator = {false}
+                    ListHeaderComponent = {<CommentHeader data = {route.params.data}/>}
+                />
+                <View style = {Styles.inputContainer}>
+                    <TextInput 
+                        style = {Styles.input}
+                        placeholder = "Escreva um comentário"
+                        value = {comment}
+                        onChangeText = {(newText) => setComment(newText)}
+                        multiline
+                        fontSize = {screen.height * 0.025}
+                    />
+                    <TouchableOpacity style = {Styles.commentButton} onPress = {handleCommentSubmit}>
+                        <Text style = {Styles.commentButtonText}>Comentar</Text>
+                    </TouchableOpacity>
+                </View>
+
+            </SafeAreaView>
+        </KeyboardAvoidingView>
     );
 }
 

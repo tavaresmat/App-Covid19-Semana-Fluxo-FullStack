@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as screen from '../constants/dimesions';
 
-export default function Post({data}){
+export default function Post({ data, onFeed }){
 
     const navigation = useNavigation();
     const { usuario, titulo, texto, imagem } = data;
@@ -21,13 +21,19 @@ export default function Post({data}){
                 source = {{uri: `https://fluxofullstack.herokuapp.com${imagem}` }}
                 />)
             }
-            <TouchableOpacity style = {Styles.commentButton} onPress = {() => navigation.navigate("comment")}>
-                <MaterialCommunityIcons
-                    name = "comment-text-multiple-outline"
-                    size = {screen.width * 0.06}
-                    color = "#FFFFFF"
-                />
-            </TouchableOpacity>
+            {/* Comment button only appears if it is in feedScreen */}
+            {onFeed && 
+                <TouchableOpacity 
+                    style = {Styles.commentButton} 
+                    onPress = {() => navigation.navigate("comment", {data: data})}
+                >
+                    <MaterialCommunityIcons
+                        name = "comment-text-multiple-outline"
+                        size = {screen.width * 0.06}
+                        color = "#FFFFFF"
+                    />
+                </TouchableOpacity>
+            }
         </View>
     );
 }

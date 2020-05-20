@@ -60,7 +60,7 @@ export default function FeedScreen({ navigation: { navigate }, route }){
           showsVerticalScrollIndicator = {false}
           data = {posts}
           keyExtractor = {(item) => String(item.id)}
-          renderItem = {({item}) => <Post data = {item} />}
+          renderItem = {({item}) => <Post data = {item} onFeed = {true} />}
         />
       }
       <TouchableOpacity style = {Styles.reloadButton} onPress = {() => loadPosts()}>
