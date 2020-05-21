@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from  'react';
+import React, { useState, useEffect, useLayoutEffect } from  'react';
 import { 
     SafeAreaView, 
     View, 
@@ -11,18 +11,32 @@ import {
     Platform,
     AsyncStorage,
     Keyboard,
+    Alert,
 } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as screen from '../constants/dimesions';
 import CommentHeader from '../components/CommentHeader';
+import Comment from '../components/Comment'
 import api from '../services/api';
 
-export default function CommentScreen({ route }){
+export default function CommentScreen({ route, navigation }){
     
     const [comment, setComment] = useState("");
     const [user, setUser] = useState("");
-
+    const [commentsList, setCommentsList] = useState(null);
+    const [count, setCount] = useState(null);
     const id = route.params.data.id;
+
+    async function loadComments(){
+        try{
+            const response = await api.get(`/postagens/${id}/comentarios/`);
+            setCommentsList(response.data.comentarios);
+            setCount(response.data.comentarios.length);
+        }catch(e){
+            console.log(e);
+        }
+    }
 
     async function loadUser(){
         const response = await AsyncStorage.getItem("user");
@@ -36,9 +50,12 @@ export default function CommentScreen({ route }){
                 texto: comment,
                 postagem: id
             };
-            await api.post('/comentarios/', newPost);
+            const response = await api.post('/comentarios/', newPost);
+            setCommentsList([...commentsList, response.data]);
+            setCount(count + 1);
         }catch(e){
             console.log(e);
+            Alert.alert("Seu comentário não foi postado");
         }finally{
             Keyboard.dismiss();
             setComment("");
@@ -47,6 +64,17 @@ export default function CommentScreen({ route }){
 
     useEffect(() => {
         loadUser();
+        loadComments();
+    }, []);
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress = {() => loadComments()}>
+                    <MaterialCommunityIcons name="reload" size={24} color="#75FFAF" />
+                </TouchableOpacity>
+            )
+        });
     }, []);
 
     return(
@@ -57,10 +85,11 @@ export default function CommentScreen({ route }){
         >
             <SafeAreaView style = {Styles.container}>
                 <FlatList
-                    data = {[route.params.data]}
+                    data = {commentsList}
                     keyExtractor = {(comment) => String(comment.id)}
                     showsVerticalScrollIndicator = {false}
-                    ListHeaderComponent = {<CommentHeader data = {route.params.data}/>}
+                    ListHeaderComponent = {<CommentHeader data = {route.params.data} count = {count}/>}
+                    renderItem = {({item}) => <Comment data = {item}/>}
                 />
                 <View style = {Styles.inputContainer}>
                     <TextInput 

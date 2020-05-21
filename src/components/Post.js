@@ -5,13 +5,18 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as screen from '../constants/dimesions';
 
-export default function Post({ data, onFeed }){
+export default function Post({ data, onFeed, count }){
 
     const navigation = useNavigation();
     const { usuario, titulo, texto, imagem } = data;
     return(
         <View style = {Styles.container}>
-            <Text style = {Styles.user}>{usuario}</Text>
+            <View style = {Styles.userContainer}>
+                <Text style = {Styles.user}>{usuario}</Text>
+                { !onFeed &&
+                    <Text style = {Styles.user}>{count} {count == 1 ? "comentário" : "comentários"}</Text>
+                }
+            </View>
             <Text style = {Styles.title}>{titulo}</Text>
             <Text style = {Styles.text}>{texto}</Text>
             { /* If the post doesn't have any image the AND operattor results in NULL and the style doesn't appear */ }
@@ -45,6 +50,10 @@ const Styles = StyleSheet.create({
         width: screen.width * 0.9,
         padding: screen.width * 0.03,
         borderRadius: 3,
+    },
+    userContainer:{
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     user:{
         color: "#39cb7f",

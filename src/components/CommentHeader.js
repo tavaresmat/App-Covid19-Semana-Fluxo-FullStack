@@ -4,11 +4,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import * as screen from '../constants/dimesions';
 import Post from './Post';
 
-export default function CommentHeader({ data }){
+export default function CommentHeader({ data, count }){
     return(
         <View style = {{ marginBottom: screen.height * 0.02}}>
             <Text style = {Styles.commentTitle}>Publicação</Text>
-            <Post data = {data} onFeed = {null} />
+            <Post data = {data} onFeed = {null} count = {count} />
         </View>
     );
 }
