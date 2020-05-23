@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import * as screen from './constants/dimesions';
 import LoginScreen from './screens/LoginScreen';
 import FeedScreen from './screens/FeedScreen';
 import StatsScreen from './screens/StatsScreen';
@@ -46,7 +47,7 @@ function LoggedInFlow({ navigation }){
                             <MaterialIcons
                                 name = "arrow-back"
                                 size = {24}
-                                color = "#75ffaf"
+                                color = "#39cb7f"
                             />
                         </TouchableOpacity>
                     ),
@@ -57,7 +58,7 @@ function LoggedInFlow({ navigation }){
                 component = {CommentScreen}
                 options = {{
                     headerTitle: false,
-                    headerTintColor: "#75ffaf",
+                    headerTintColor: "#39cb7f",
                 }}
             />
         </Stack.Navigator>
@@ -68,7 +69,8 @@ function TabFlow(){
     return(
         <Tab.Navigator tabBarOptions={{
             labelStyle:{fontSize:16},
-            activeTintColor:"#75ffaf"
+            style:{paddingVertical: screen.height * 0.01},
+            activeTintColor:"#39cb7f"
         }}>
             <Tab.Screen 
                 name = "feed" 
@@ -78,7 +80,7 @@ function TabFlow(){
                         <MaterialCommunityIcons
                             name = "clipboard-text-outline"
                             size = {30}
-                            color = {focused ? "#75ffaf" : "grey"}  /* Deixa ícone selecionado colorido */
+                            color = {focused ? "#39cb7f" : "grey"}  /* Deixa ícone selecionado colorido */
                         />
                 }}
             />
@@ -90,7 +92,7 @@ function TabFlow(){
                         <Entypo 
                             name = "line-graph" 
                             size = {30} 
-                            color = {focused ? "#75ffaf" : "grey"}  /* Deixa ícone selecionado colorido */
+                            color = {focused ? "#39cb7f" : "grey"}  /* Deixa ícone selecionado colorido */
                         />
                 }}
             />

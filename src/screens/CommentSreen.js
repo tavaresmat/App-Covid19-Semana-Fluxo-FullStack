@@ -71,7 +71,7 @@ export default function CommentScreen({ route, navigation }){
         navigation.setOptions({
             headerRight: () => (
                 <TouchableOpacity onPress = {() => loadComments()}>
-                    <MaterialCommunityIcons name="reload" size={24} color="#75FFAF" />
+                    <MaterialCommunityIcons name="reload" size={24} color="#39cb7f" />
                 </TouchableOpacity>
             )
         });
@@ -140,7 +140,7 @@ const Styles = StyleSheet.create({
         paddingVertical: screen.height * 0.006,
     },
     commentButton:{
-        backgroundColor: "#75FFAF",
+        backgroundColor: "#39cb7f",
         width: screen.width * 0.2,
         height: screen.height * 0.08,
         borderRadius: screen.width * 0.03,

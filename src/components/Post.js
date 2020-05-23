@@ -82,7 +82,7 @@ const Styles = StyleSheet.create({
         position: "absolute",
         width: screen.width * 0.1,
         height: screen.width * 0.1,
-        backgroundColor: "#75FFAF",
+        backgroundColor: "#39cb7f",
         borderRadius: (screen.width * 0.1)/2,
         justifyContent: "center",
         alignItems: "center",

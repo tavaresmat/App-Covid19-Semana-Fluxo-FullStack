@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     submitButton:{
       width: screen.width * 0.2,
       height: screen.height * 0.06,
-      backgroundColor: "#75FFAF",
+      backgroundColor: "#39cb7f",
       alignSelf: "center",
       borderRadius: screen.width * 0.02,
       alignItems: "center",

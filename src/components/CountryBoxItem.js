@@ -24,7 +24,7 @@ export default function CountryBoxItem({ countryData }){
 const styles = StyleSheet.create({
         container:{
             flex: 1,
-            borderColor: "#75FFAF",
+            borderColor: "#39cb7f",
             borderWidth: 1,
             alignSelf: "center",
             padding: screen.width * 0.02,
