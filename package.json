@@ -16,6 +16,7 @@
     "expo": "^37.0.12",
     "expo-image-picker": "^8.1.0",
     "expo-permissions": "^8.1.0",
+    "logkitty": "^0.7.1",
     "mem": "^6.1.0",
     "os-locale": "^5.0.0",
     "react": "~16.9.0",
