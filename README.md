@@ -7,3 +7,8 @@ O aplicativo contém uma tela de login e após logado o usuário tem acesso a es
 ![LoginScreen](/AppPreview/covid19(4).png) ![StatScreen](/AppPreview/covid19.png)
 
 ![FeedScreen](/AppPreview/covid19(1).png) ![PostScreen](/AppPreview/covid19(2).png)
+
+## Recomendações para usar o projeto
+
+- Node instalado
+- expo-cli instalado
