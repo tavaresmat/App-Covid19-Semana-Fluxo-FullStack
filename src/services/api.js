@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: "https://app-covid-fluxo.herokuapp.com/"
+    baseURL: "https://fluxofullstack.herokuapp.com/"
 });
 
 export default api;
